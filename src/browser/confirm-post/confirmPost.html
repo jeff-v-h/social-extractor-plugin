@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="confirmPost.css">
+</head>
+
+<body>
+  <h2>Confirm Data</h2>
+  <form>
+    <div>
+      <div class="form-section">
+        <div>
+          <label for="media-platform">Media Platform</label>
+          <input id="media-platform" disabled>
+        </div>
+        <div>
+          <label for="display-name">Display Name</label>
+          <input id="display-name">
+        </div>
+        <div>
+          <label for="media-handle">Media Handle</label>
+          <input id="media-handle">
+        </div>
+        <div>
+          <label for="main-content">Main Content</label>
+          <textarea id="main-content"></textarea>
+        </div>
+        <div>
+          <label for="secondary-content">Secondary Content</label>
+          <textarea id="secondary-content" class="secondary"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div id="attachments">
+      <h3>Attachments</h3>
+    </div>
+
+    <div>
+      <button id="add-attachment" class="btn" type="button">Add Attachment</button>
+    </div>
+
+    <div class="page-bottom">
+      <button id="cancel" type="button" class="btn">Cancel</button>
+      <button id="save-local" class="save btn" type="button">Save in browser</button>
+      <button id="save" class="save btn" type="button">Send to media tool</button>
+      <p id="loading" class="hidden">Sending Request...</p>
+    </div>
+
+  </form>
+
+  <script src="../../vendors/jquery-3.4.1.min.js"></script>
+  <script src="confirmPost.js"></script>
+</body>
+
+</html>
