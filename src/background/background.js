@@ -20,6 +20,9 @@ chrome.runtime.onInstalled.addListener(function() {
   // Await messages from contentscripts
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     switch (request.message) {
+      case 'setupTwitter':
+        setupTwitter();
+        break;
       case 'addTweetButtons':
         addTweetButtons();
         break;
@@ -28,6 +31,16 @@ chrome.runtime.onInstalled.addListener(function() {
         break;
     }
   });
+
+  function setupTwitter() {
+    if (!urlListened) {
+      urlListened = true;
+      listenForUrlChange();
+    }
+    chrome.tabs.executeScript(null, {
+      file: 'content-scripts/twitter/awaitTwitterLoad.js'
+    });
+  }
 
   function addTweetButtons() {
     chrome.tabs.executeScript(null, {
