@@ -32,6 +32,11 @@ chrome.runtime.onInstalled.addListener(function() {
       case "confirmPost":
         confirmPost(request.data);
         break;
+      case "saveMediaPost":
+        saveMediaPost(request.data);
+        break;
+      default:
+        break;
     }
   });
 
