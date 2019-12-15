@@ -6,10 +6,10 @@ chrome.runtime.onInstalled.addListener(function() {
       {
         conditions: [
           new chrome.declarativeContent.PageStateMatcher({
-            pageUrl: { hostSuffix: 'twitter.com' }
+            pageUrl: { hostSuffix: "twitter.com" }
           }),
           new chrome.declarativeContent.PageStateMatcher({
-            pageUrl: { hostSuffix: 'instagram.com' }
+            pageUrl: { hostSuffix: "instagram.com" }
           })
         ],
         actions: [new chrome.declarativeContent.ShowPageAction()]
@@ -20,14 +20,17 @@ chrome.runtime.onInstalled.addListener(function() {
   // Await messages from contentscripts
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     switch (request.message) {
-      case 'setupTwitter':
+      case "setupTwitter":
         setupTwitter();
         break;
-      case 'addTweetButtons':
+      case "addTweetButtons":
         addTweetButtons();
         break;
-      case 'addInstagramButtons':
+      case "addInstagramButtons":
         addInstagramButtons();
+        break;
+      case "confirmPost":
+        confirmPost(request.data);
         break;
     }
   });
@@ -38,18 +41,33 @@ chrome.runtime.onInstalled.addListener(function() {
       listenForUrlChange();
     }
     chrome.tabs.executeScript(null, {
-      file: 'content-scripts/twitter/awaitTwitterLoad.js'
+      file: "content-scripts/twitter/awaitTwitterLoad.js"
     });
   }
 
   function addTweetButtons() {
     chrome.tabs.executeScript(null, {
-      file: 'content-scripts/twitter/tweets.js'
+      file: "content-scripts/twitter/tweets.js"
     });
   }
 
   function addInstagramButtons() {
     chrome.tabs.executeScript(null, {
-      file: 'content-scripts/instagram/instagramPosts.js'
+      file: "content-scripts/instagram/instagramPosts.js"
     });
+  }
+
+  function confirmPost(data) {
+    chrome.storage.sync.set({ lastPost: data }, function() {
+      chrome.windows.create(
+        {
+          url: "browser/confirm-post/confirmPost.html",
+          type: "popup",
+          width: 900,
+          height: 850
+        },
+        function(window) {}
+      );
+    });
+  }
 });
