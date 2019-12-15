@@ -57,6 +57,25 @@ chrome.runtime.onInstalled.addListener(function() {
     });
   }
 
+  function listenForUrlChange() {
+    chrome.tabs.onUpdated.addListener(urlUpdatedListener);
+  }
+
+  // Also execute script when page changes (eg when link clicked within site)
+  function urlUpdatedListener(tabId, changeInfo, tab) {
+    if (changeInfo.url) {
+      if (changeInfo.url.includes("twitter.com")) {
+        chrome.tabs.executeScript(null, {
+          file: "content-scripts/twitter/awaitTwitterLoad.js"
+        });
+      } else if (changeInfo.url.includes("instagram.com")) {
+        chrome.tabs.executeScript(null, {
+          file: "content-scripts/instagram/awaitInstagramLoad.js"
+        });
+      }
+    }
+  }
+
   function confirmPost(data) {
     chrome.storage.sync.set({ lastPost: data }, function() {
       chrome.windows.create(
