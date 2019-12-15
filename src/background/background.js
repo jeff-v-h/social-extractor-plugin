@@ -26,6 +26,10 @@ chrome.runtime.onInstalled.addListener(function() {
       case "addTweetButtons":
         addTweetButtons();
         break;
+      case "setupInstagram":
+        console.log("background");
+        setupInstagram();
+        break;
       case "addInstagramButtons":
         addInstagramButtons();
         break;
@@ -47,6 +51,16 @@ chrome.runtime.onInstalled.addListener(function() {
     }
     chrome.tabs.executeScript(null, {
       file: "content-scripts/twitter/awaitTwitterLoad.js"
+    });
+  }
+
+  function setupInstagram() {
+    if (!urlListened) {
+      urlListened = true;
+      listenForUrlChange();
+    }
+    chrome.tabs.executeScript(null, {
+      file: "content-scripts/instagram/awaitInstagramLoad.js"
     });
   }
 
@@ -93,5 +107,30 @@ chrome.runtime.onInstalled.addListener(function() {
         function(window) {}
       );
     });
+  }
+
+  function saveMediaPost(data) {
+    const url =
+      "https://localhost:44313/api/sociallists/5dd69c3c17fce357dc82444e/items";
+
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == XMLHttpRequest.DONE) {
+        const name = data.displayName ? data.displayName : data.mediaHandle;
+        const response =
+          xhr.status == 201
+            ? "Save successful"
+            : `Error saving tweet from "${name}"`;
+
+        chrome.tabs.executeScript(
+          null,
+          { code: `var msg = '${response}'; msg` },
+          results => alert(results)
+        );
+      }
+    };
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.send(JSON.stringify(data));
   }
 });
