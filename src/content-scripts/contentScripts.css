@@ -1,0 +1,13 @@
+.d3-btn {
+  margin-top: 0.5rem;
+  cursor: pointer;
+  background-color: #212553;
+  border-color: #212553;
+  border-radius: 10px;
+  color: white;
+}
+
+.d3-btn:hover {
+  background-color: #3c4180;
+  border-color: #3c4180;
+}
