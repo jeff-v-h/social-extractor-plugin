@@ -47,7 +47,7 @@
 
   // Add button for every tweet and it's function after added to DOM
   function addTweetButtons(pathStart) {
-    const d3Button = `<button class="d3-btn">Save Tweet</button>`;
+    const d3Button = `<button class="d3-btn tweet-btn">Save Tweet</button>`;
     const profileNav = $(`nav[aria-label][role="navigation"]`);
 
     $(`article[role="article"]`).each(function(index) {
