@@ -7,6 +7,7 @@ Clicking the button will extract the data from the post to send to a web page to
 
 - Google Chrome Browser
 - jQuery (source files saved within project)
+- [Social Extractor API](https://github.com/jeffvhuang/social-extractor-api) to be able to save data via Http requests. Otherwise it is possible to save data in Chrome's local storage.
 
 ## Development Environment
 
